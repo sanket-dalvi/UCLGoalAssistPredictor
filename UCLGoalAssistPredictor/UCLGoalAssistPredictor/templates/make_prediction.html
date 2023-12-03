@@ -49,47 +49,79 @@
             background-color: #45a049;
         }
     </style>
+    <!-- Include jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <!-- Include Select2 CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
+
+    <!-- Include Select2 JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+
 </head>
 <body>
     <h1>Soccer Player Goals & Assists Predictor</h1>
     <form method="post" onsubmit="return validateForm()">
         {% csrf_token %}
-        <label for="player_name">Player Name:</label>
-        <select name="player_name" id="player_name">
+        <label for="goal_scorer">Player Name:</label>
+        <select name="goal_scorer" id="goal_scorer">
             <!-- Django code to populate the dropdown with player names -->
-            {% for player in players %}
-                <option value="{{ player.id }}">{{ player.name }}</option>
+            {% for goal_scorer in goal_scorers %}
+                <option value="{{ goal_scorer }}">{{ goal_scorer }}</option>
             {% endfor %}
         </select>
         <br><br>
         <label for="home_team">Home Team:</label>
         <select name="home_team" id="home_team" onchange="updateStadiumAndPlayerTeam()">
             <!-- Django code to populate the dropdown with home team names -->
-            {% for team in teams %}
-                <option value="{{ team.id }}">{{ team.name }}</option>
+            {% for team in home_teams %}
+                <option value="{{ team }}">{{ team }}</option>
             {% endfor %}
         </select>
         <br><br>
-        <label for="away_team">Away Team:</label>
+        <label for="away_teams">Away Team:</label>
         <select name="away_team" id="away_team" onchange="updateStadiumAndPlayerTeam()">
             <!-- Django code to populate the dropdown with away team names -->
-            {% for team in teams %}
-                <option value="{{ team.id }}">{{ team.name }}</option>
+            {% for team in away_teams %}
+                <option value="{{ team }}">{{ team }}</option>
             {% endfor %}
         </select>
         <br><br>
         <label for="stadium">Stadium:</label>
-        <select name="stadium" id="stadium"></select>
+        <select name="stadium" id="stadium" onchange="updateStadiumAndPlayerTeam()">
+            <!-- Django code to populate the dropdown with away team names -->
+            {% for stadium in stadiums %}
+                <option value="{{ stadium }}">{{ stadium }}</option>
+            {% endfor %}
+        </select>
         <br><br>
         <label for="player_team">Player Team:</label>
-        <select name="player_team" id="player_team"></select>
+        <select name="player_team" id="player_team" onchange="updateStadiumAndPlayerTeam()">
+            <!-- Django code to populate the dropdown with away team names -->
+            {% for team in goal_scorer_teams %}
+                <option value="{{ team }}">{{ team }}</option>
+            {% endfor %}
+        </select>
         <br><br>
         <label for="assist_player_name">Assist Player Name (Optional):</label>
-        <input type="text" id="assist_player_name" name="assist_player_name">
+        <select name="assist_player" id="assist_player">
+            <!-- Django code to populate the dropdown with player names -->
+            {% for assist_player in assist_players %}
+                <option value="{{ assist_player }}">{{ assist_player }}</option>
+            {% endfor %}
+        </select>
         <br><br>
         <input type="submit" value="Predict">
     </form>
     <script>
+        $(document).ready(function() {
+            $('#goal_scorer').select2();
+            $('#home_team').select2();
+            $('#away_team').select2();
+            $('#stadium').select2();
+            $('#player_team').select2();
+            $('#assist_player').select2();
+        });
         function validateForm() {
         var homeTeamSelect = document.getElementById("home_team");
         var awayTeamSelect = document.getElementById("away_team");

@@ -1,1 +1,48 @@
-show_prediction
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Show Prediction</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            text-align: center;
+            padding-top: 50px;
+        }
+        h1 {
+            font-size: 48px;
+            color: #333;
+            animation: fadeIn 1s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+        .prediction {
+            font-size: 72px;
+            font-weight: bold;
+            color: #4CAF50;
+            animation: slideIn 1s ease-in-out;
+        }
+        @keyframes slideIn {
+            from {
+                transform: translateY(-50%);
+            }
+            to {
+                transform: translateY(0%);
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1>Predicted Goals:</h1>
+    <div class="prediction">
+        {{ predicted_score | safe }}
+    </div>
+</body>
+</html>
