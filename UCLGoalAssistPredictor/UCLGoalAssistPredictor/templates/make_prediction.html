@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Make Prediction</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            text-align: center;
+            padding-top: 50px;
+        }
+        h1 {
+            font-size: 36px;
+            color: #333;
+        }
+        form {
+            margin: 0 auto;
+            width: 50%;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        label {
+            display: block;
+            font-size: 18px;
+            margin-bottom: 10px;
+            color: #555;
+        }
+        select {
+            width: 100%;
+            padding: 8px;
+            font-size: 16px;
+            margin-bottom: 20px;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+        }
+        input[type="submit"] {
+            padding: 10px 20px;
+            font-size: 18px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        input[type="submit"]:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <h1>Soccer Player Goals & Assists Predictor</h1>
+    <form method="post" onsubmit="return validateForm()">
+        {% csrf_token %}
+        <label for="player_name">Player Name:</label>
+        <select name="player_name" id="player_name">
+            <!-- Django code to populate the dropdown with player names -->
+            {% for player in players %}
+                <option value="{{ player.id }}">{{ player.name }}</option>
+            {% endfor %}
+        </select>
+        <br><br>
+        <label for="home_team">Home Team:</label>
+        <select name="home_team" id="home_team" onchange="updateStadiumAndPlayerTeam()">
+            <!-- Django code to populate the dropdown with home team names -->
+            {% for team in teams %}
+                <option value="{{ team.id }}">{{ team.name }}</option>
+            {% endfor %}
+        </select>
+        <br><br>
+        <label for="away_team">Away Team:</label>
+        <select name="away_team" id="away_team" onchange="updateStadiumAndPlayerTeam()">
+            <!-- Django code to populate the dropdown with away team names -->
+            {% for team in teams %}
+                <option value="{{ team.id }}">{{ team.name }}</option>
+            {% endfor %}
+        </select>
+        <br><br>
+        <label for="stadium">Stadium:</label>
+        <select name="stadium" id="stadium"></select>
+        <br><br>
+        <label for="player_team">Player Team:</label>
+        <select name="player_team" id="player_team"></select>
+        <br><br>
+        <label for="assist_player_name">Assist Player Name (Optional):</label>
+        <input type="text" id="assist_player_name" name="assist_player_name">
+        <br><br>
+        <input type="submit" value="Predict">
+    </form>
+    <script>
+        function validateForm() {
+        var homeTeamSelect = document.getElementById("home_team");
+        var awayTeamSelect = document.getElementById("away_team");
+        var assistPlayerNameInput = document.getElementById("assist_player_name").value;
+        var playerNameSelect = document.getElementById("player_name");
+        var playerTeamSelect = document.getElementById("player_team");
+
+        if (homeTeamSelect.value === awayTeamSelect.value) {
+            alert("Home and Away teams cannot be the same.");
+            return false;
+        }
+
+        // Validation: Assist player and player name should not be the same
+        if (assistPlayerNameInput !== "" && assistPlayerNameInput === playerNameSelect.options[playerNameSelect.selectedIndex].text) {
+            alert("Assist player name cannot be the same as the player name.");
+            return false;
+        }
+
+        // Validation: Player team should match with either home team or away team
+        var selectedPlayerTeam = playerTeamSelect.options[playerTeamSelect.selectedIndex].text;
+        var selectedHomeTeam = homeTeamSelect.options[homeTeamSelect.selectedIndex].text;
+        var selectedAwayTeam = awayTeamSelect.options[awayTeamSelect.selectedIndex].text;
+
+        if (selectedPlayerTeam !== selectedHomeTeam && selectedPlayerTeam !== selectedAwayTeam) {
+            alert("Player team should match with either the home team or the away team.");
+            return false;
+        }
+
+        // You can add more validations here as needed
+
+        return true;
+    }
+    </script>
+</body>
+</html>
