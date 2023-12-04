@@ -2,22 +2,27 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Homepage</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
-            background-color: #f0f0f0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #87CEEB; /* Sky Blue background */
             text-align: center;
-            padding-top: 50px;
+            margin: 0;
+            padding: 0;
         }
         h1 {
-            font-size: 36px;
+            font-size: 3em;
             color: #333;
+            margin-top: 20px;
         }
         #slideshow-container {
             max-width: 800px;
             margin: auto;
             overflow: hidden;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
         .mySlides {
             display: none;
@@ -25,12 +30,15 @@
         }
         img {
             width: 100%;
+            border-radius: 10px;
+            object-fit: cover;
+            height: 300px; /* Set the desired height */
         }
         #startPredictionBtn {
             display: block;
             margin: 20px auto;
-            padding: 10px 20px;
-            font-size: 16px;
+            padding: 15px 30px;
+            font-size: 18px;
             text-align: center;
             text-decoration: none;
             background-color: #4CAF50;
@@ -38,12 +46,16 @@
             border: none;
             border-radius: 5px;
             cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        #startPredictionBtn:hover {
+            background-color: #45a049;
         }
     </style>
 </head>
 <body>
 
-    <h1>Homepage</h1>
+    <h1>Project Title</h1>
 
     <div id="slideshow-container">
         <div class="mySlides">
@@ -51,7 +63,6 @@
         </div>
         <div class="mySlides">
             <img src="https://media.gettyimages.com/id/1417997379/photo/istanbul-turkiyethe-final-groups-are-seen-following-the-uefa-champions-league-2022-23-group.jpg?s=612x612&w=0&k=20&c=jbg7cWy8Uqj47VzCjkTDfDIq1Mxj0K5jNn5OgnHpZYA=" alt="Slide 2">
-        </div>
         </div>
         <div class="mySlides">
             <img src="https://wallpapers.com/images/high/uefa-champions-league-tv-marathon-e2f08oku4xnk5u6t.webp" alt="Slide 3">
