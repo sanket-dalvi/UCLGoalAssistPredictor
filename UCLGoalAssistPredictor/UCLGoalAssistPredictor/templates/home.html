@@ -1,1 +1,97 @@
-home
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Homepage</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            text-align: center;
+            padding-top: 50px;
+        }
+        h1 {
+            font-size: 36px;
+            color: #333;
+        }
+        #slideshow-container {
+            max-width: 800px;
+            margin: auto;
+            overflow: hidden;
+        }
+        .mySlides {
+            display: none;
+            width: 100%;
+        }
+        img {
+            width: 100%;
+        }
+        #startPredictionBtn {
+            display: block;
+            margin: 20px auto;
+            padding: 10px 20px;
+            font-size: 16px;
+            text-align: center;
+            text-decoration: none;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Homepage</h1>
+
+    <div id="slideshow-container">
+        <div class="mySlides">
+            <img src="https://media.gettyimages.com/id/838611242/photo/topshot-the-champions-league-trophy-stands-on-display-during-the-uefa-champions-league.jpg?s=612x612&w=0&k=20&c=tx2ULakFyKzPEwhFHC4Ol0h8htMMa5lggZuTG3I9gIM=" alt="Slide 1">
+        </div>
+        <div class="mySlides">
+            <img src="https://media.gettyimages.com/id/1417997379/photo/istanbul-turkiyethe-final-groups-are-seen-following-the-uefa-champions-league-2022-23-group.jpg?s=612x612&w=0&k=20&c=jbg7cWy8Uqj47VzCjkTDfDIq1Mxj0K5jNn5OgnHpZYA=" alt="Slide 2">
+        </div>
+        </div>
+        <div class="mySlides">
+            <img src="https://wallpapers.com/images/high/uefa-champions-league-tv-marathon-e2f08oku4xnk5u6t.webp" alt="Slide 3">
+        </div>
+        <div class="mySlides">
+            <img src="https://wallpapers.com/images/high/uefa-champions-league-in-blue-rain-drop-ivoem3671f4zn0sy.webp" alt="Slide 4">
+        </div>
+        <!-- Add more slides as needed -->
+
+        <!-- Navigation buttons -->
+        <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
+        <a class="next" onclick="plusSlides(1)">&#10095;</a>
+    </div>
+
+    <a href="make_prediction" id="startPredictionBtn">Start Prediction</a>
+
+    <script>
+        // JavaScript for image slideshow
+        let slideIndex = 0;
+
+        function showSlides() {
+            let i;
+            const slides = document.getElementsByClassName("mySlides");
+            for (i = 0; i < slides.length; i++) {
+                slides[i].style.display = "none";
+            }
+            slideIndex++;
+            if (slideIndex > slides.length) {
+                slideIndex = 1;
+            }
+            slides[slideIndex - 1].style.display = "block";
+            setTimeout(showSlides, 2000); // Change slide every 2 seconds
+        }
+
+        function plusSlides(n) {
+            showSlides(slideIndex += n);
+        }
+
+        showSlides();
+    </script>
+
+</body>
+</html>
