@@ -30,6 +30,7 @@
             color: #4CAF50;
             animation: slideIn 1s ease-in-out;
         }
+
         @keyframes slideIn {
             from {
                 transform: translateY(-50%);
@@ -76,6 +77,23 @@
             max-width: 100%; /* Ensure it doesn't exceed the screen width */
             max-height: 100%; /* Ensure it doesn't exceed the screen height */
         }
+
+        button{
+            padding: 15px 25px;
+            border: none;
+            cursor: pointer;
+            color: white;
+            border-radius: 20px;
+            background-color: #663399;
+            transition: background-color 0.3s;
+            font-size: 15px; 
+            font-style: normal;
+
+        }
+
+        button:hover {
+            background-color: lightgreen; 
+        }
     </style>
 </head>
 <body>
@@ -93,7 +111,8 @@
         {{ predicted_score | safe }}
     </div>
     
-    <a href="start_prediction" id="startNewPredictionBtn">Start New Prediction</a>
+    <a href="make_prediction" id="startPredictionBtn"><button>Predict Again</button></a>
+
 
     <script>
         // Hide loading screen after 2 seconds

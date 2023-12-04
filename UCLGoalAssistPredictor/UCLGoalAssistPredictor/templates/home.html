@@ -4,105 +4,81 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Homepage</title>
+    {% load static %}
     <style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #87CEEB; /* Sky Blue background */
+            background-image: url('{% static "football.jpg" %}');
+            background-size: cover;
             text-align: center;
             margin: 0;
             padding: 0;
         }
-        h1 {
-            font-size: 3em;
-            color: #333;
-            margin-top: 20px;
+
+        h1{
+            font-weight: bolder;
+            font-style: oblique;
+            color: #8BC34A;
+            font-size: 10vh;
+            text-shadow: 2px 2px 2px #333, -2px -2px 2px #fff, 2px -2px 2px #fff, -2px 2px 2px #333;
         }
-        #slideshow-container {
-            max-width: 800px;
-            margin: auto;
-            overflow: hidden;
-            border-radius: 10px;
+
+        h2{
+            font-weight: bolder;
+            font-style: oblique;
+            color: whitesmoke;
+            font-size: 5vh;
+        }
+
+        .filler{
+            background-color: rgba(0, 0, 0, 0.2); 
+            padding: 20px; 
+            border-radius: 10px; 
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 90vh;
+            height: 50vh;
+            margin-left: 90vh;
+            margin-top: 10vh;
         }
-        .mySlides {
-            display: none;
-            width: 100%;
+
+        p{
+            font-size: 18px; color: #fff; font-style: italic;
         }
-        img {
-            width: 100%;
-            border-radius: 10px;
-            object-fit: cover;
-            height: 300px; /* Set the desired height */
-        }
-        #startPredictionBtn {
-            display: block;
-            margin: 20px auto;
-            padding: 15px 30px;
-            font-size: 18px;
-            text-align: center;
-            text-decoration: none;
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
-        #startPredictionBtn:hover {
-            background-color: #45a049;
-        }
+
+    button{
+        padding: 15px 25px;
+        border: none;
+        cursor: pointer;
+        color: white;
+        border-radius: 20px;
+        background-color: #663399;
+        transition: background-color 0.3s;
+        font-size: 15px; 
+        font-style: oblique;
+
+    }
+
+    button:hover {
+        background-color: lightgreen; 
+    }
+
     </style>
 </head>
 <body>
 
-    <h1>Project Title</h1>
+    <h1>Soccer Player Prediction System</h1>
 
-    <div id="slideshow-container">
-        <div class="mySlides">
-            <img src="https://media.gettyimages.com/id/838611242/photo/topshot-the-champions-league-trophy-stands-on-display-during-the-uefa-champions-league.jpg?s=612x612&w=0&k=20&c=tx2ULakFyKzPEwhFHC4Ol0h8htMMa5lggZuTG3I9gIM=" alt="Slide 1">
-        </div>
-        <div class="mySlides">
-            <img src="https://media.gettyimages.com/id/1417997379/photo/istanbul-turkiyethe-final-groups-are-seen-following-the-uefa-champions-league-2022-23-group.jpg?s=612x612&w=0&k=20&c=jbg7cWy8Uqj47VzCjkTDfDIq1Mxj0K5jNn5OgnHpZYA=" alt="Slide 2">
-        </div>
-        <div class="mySlides">
-            <img src="https://wallpapers.com/images/high/uefa-champions-league-tv-marathon-e2f08oku4xnk5u6t.webp" alt="Slide 3">
-        </div>
-        <div class="mySlides">
-            <img src="https://wallpapers.com/images/high/uefa-champions-league-in-blue-rain-drop-ivoem3671f4zn0sy.webp" alt="Slide 4">
-        </div>
-        <!-- Add more slides as needed -->
-
-        <!-- Navigation buttons -->
-        <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
-        <a class="next" onclick="plusSlides(1)">&#10095;</a>
+    <div class="filler">
+        <h2>Welcome to the Football Prodigy Zone!</h2>
+        <p>
+            Delve into the dynamic intersection of data and advanced algorithms as we embark on an exploration of the captivating realm of football analytics. 
+            Anticipate insightful predictions regarding goals and assists that promise to astonish. 
+            Let's tune in into the intricacies of the sport that goes beyond expectations!
+        </p>
+        <p>Go Footy!!!</p>
+        <a href="{% url 'make_prediction' %}" id="startPredictionBtn"><button>Start Prediction</button></a>
     </div>
-
-    <a href="make_prediction" id="startPredictionBtn">Start Prediction</a>
-
-    <script>
-        // JavaScript for image slideshow
-        let slideIndex = 0;
-
-        function showSlides() {
-            let i;
-            const slides = document.getElementsByClassName("mySlides");
-            for (i = 0; i < slides.length; i++) {
-                slides[i].style.display = "none";
-            }
-            slideIndex++;
-            if (slideIndex > slides.length) {
-                slideIndex = 1;
-            }
-            slides[slideIndex - 1].style.display = "block";
-            setTimeout(showSlides, 2000); // Change slide every 2 seconds
-        }
-
-        function plusSlides(n) {
-            showSlides(slideIndex += n);
-        }
-
-        showSlides();
-    </script>
+    
 
 </body>
 </html>

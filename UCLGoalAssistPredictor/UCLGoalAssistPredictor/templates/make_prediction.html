@@ -3,49 +3,86 @@
 <head>
     <meta charset="UTF-8">
     <title>Make Prediction</title>
+    {% load static %}
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-color: #f0f0f0;
+            background-image: url('{% static "UFEA.jpg" %}');
+            background-size: cover;
             text-align: center;
             padding-top: 50px;
         }
         h1 {
             font-size: 36px;
-            color: #333;
+            font-weight: bold; 
+            color: aliceblue;
+            margin-left: 38%;
         }
+
         form {
             margin: 0 auto;
-            width: 50%;
-            background-color: #fff;
+            width: 90vh;
+            height: 90vh;            
             padding: 20px;
             border-radius: 8px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            margin-left: 90vh;
+            margin-top: -3vh;
+            text-align: left;
         }
+
+        .grid-container {
+            display: grid;
+            grid-template-columns: auto auto auto;
+            padding: 10px;
+        }
+        
+        .grid-item {
+            background-color: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(0, 0, 0, 0.8);
+            padding: 8px;
+            text-align: center;
+        }
+
         label {
             display: block;
             font-size: 18px;
             margin-bottom: 10px;
-            color: #555;
+            color: #fff;
         }
+        
         select {
-            width: 100%;
+            width: 40%; /* Adjust the width as needed */
             padding: 8px;
             font-size: 16px;
             margin-bottom: 20px;
             border-radius: 4px;
             border: 1px solid #ccc;
+            display: inline-block; /* Display selects in one line */
+            margin-right: 2%; /* Adjust the margin between selects */
+            box-sizing: border-box;
         }
-        input[type="submit"] {
+
+        #predict{
+            margin-left: 240px;
+        }
+
+        .styled-button {
+            margin: 10px auto;
+            display: inline-block;
+            margin-top: 10px;
             padding: 10px 20px;
             font-size: 18px;
-            background-color: #4CAF50;
+            background-color: #663399;
+            border-radius: 10px;
             color: white;
             border: none;
-            border-radius: 4px;
             cursor: pointer;
+            transition: background-color 0.3s;
+            text-decoration: none; 
         }
-        input[type="submit"]:hover {
+
+        .styled-button:hover {
             background-color: #45a049;
         }
     </style>
@@ -57,62 +94,82 @@
 
     <!-- Include Select2 JS -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
-
 </head>
+
 <body>
+
     <h1>Soccer Player Goals & Assists Predictor</h1>
-    <form method="post" onsubmit="return validateForm()">
-        {% csrf_token %}
-        <label for="goal_scorer">Player Name:</label>
-        <select name="goal_scorer" id="goal_scorer">
-            <!-- Django code to populate the dropdown with player names -->
-            {% for goal_scorer in goal_scorers %}
-                <option value="{{ goal_scorer }}">{{ goal_scorer }}</option>
-            {% endfor %}
-        </select>
-        <br><br>
-        <label for="home_team">Home Team:</label>
-        <select name="home_team" id="home_team" onchange="updateStadiumAndPlayerTeam()">
-            <!-- Django code to populate the dropdown with home team names -->
-            {% for team in home_teams %}
-                <option value="{{ team }}">{{ team }}</option>
-            {% endfor %}
-        </select>
-        <br><br>
-        <label for="away_teams">Away Team:</label>
-        <select name="away_team" id="away_team" onchange="updateStadiumAndPlayerTeam()">
-            <!-- Django code to populate the dropdown with away team names -->
-            {% for team in away_teams %}
-                <option value="{{ team }}">{{ team }}</option>
-            {% endfor %}
-        </select>
-        <br><br>
-        <label for="stadium">Stadium:</label>
-        <select name="stadium" id="stadium" onchange="updateStadiumAndPlayerTeam()">
-            <!-- Django code to populate the dropdown with away team names -->
-            {% for stadium in stadiums %}
-                <option value="{{ stadium }}">{{ stadium }}</option>
-            {% endfor %}
-        </select>
-        <br><br>
-        <label for="player_team">Player Team:</label>
-        <select name="player_team" id="player_team" onchange="updateStadiumAndPlayerTeam()">
-            <!-- Django code to populate the dropdown with away team names -->
-            {% for team in goal_scorer_teams %}
-                <option value="{{ team }}">{{ team }}</option>
-            {% endfor %}
-        </select>
-        <br><br>
-        <label for="assist_player_name">Assist Player Name (Optional):</label>
-        <select name="assist_player" id="assist_player">
-            <!-- Django code to populate the dropdown with player names -->
-            {% for assist_player in assist_players %}
-                <option value="{{ assist_player }}">{{ assist_player }}</option>
-            {% endfor %}
-        </select>
-        <br><br>
-        <input type="submit" value="Predict">
-    </form>
+
+    <div class="grid-container" style="display:grid;">
+
+        <form method="post" onsubmit="return validateForm()">
+            {% csrf_token %}
+            
+            <div class="grid-item">
+                <label for="goal_scorer">Player Name:</label>
+                <select name="goal_scorer" id="goal_scorer">
+                    <option disabled selected>Select Goal Scorer</option>
+                    {% for goal_scorer in goal_scorers %}
+                        <option value="{{ goal_scorer }}">{{ goal_scorer }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="grid-item">
+                <label for="home_team">Home Team:</label>
+                <select name="home_team" id="home_team" onchange="updateStadiumAndPlayerTeam()">
+                    <option disabled selected>Select Home Team</option>
+                    {% for team in home_teams %}
+                        <option value="{{ team }}">{{ team }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="grid-item">
+                <label for="away_teams">Away Team:</label>
+                <select name="away_team" id="away_team" onchange="updateStadiumAndPlayerTeam()">
+                    <option disabled selected>Select Away Team</option>
+                    {% for team in away_teams %}
+                        <option value="{{ team }}">{{ team }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="grid-item">
+                <label for="stadium">Stadium:</label>
+                <select name="stadium" id="stadium" onchange="updateStadiumAndPlayerTeam()">
+                    <option disabled selected>Select Stadium</option>
+                    {% for stadium in stadiums %}
+                        <option value="{{ stadium }}">{{ stadium }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="grid-item">
+                <label for="player_team">Player Team:</label>
+                <select name="player_team" id="player_team" onchange="updateStadiumAndPlayerTeam()">
+                    <option disabled selected>Select Player Team</option>
+                    {% for team in goal_scorer_teams %}
+                        <option value="{{ team }}">{{ team }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="grid-item">
+                <label for="assist_player_name">Assist Player Name (Optional):</label>
+                <select name="assist_player" id="assist_player">
+                    <option disabled selected>Select Assist Player</option>
+                    {% for assist_player in assist_players %}
+                        <option value="{{ assist_player }}">{{ assist_player }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <input type="submit" value="Predict" class="styled-button" id="predict">
+            <input type="button" value="Back" class="styled-button" id="back" onclick="window.location.href='{% url 'home' %}'">
+        </form>
+    </div>
+
     <script>
         $(document).ready(function() {
             $('#goal_scorer').select2();

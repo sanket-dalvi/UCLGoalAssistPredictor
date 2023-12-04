@@ -89,8 +89,7 @@ def make_prediction(request):
 
         else:
             messages.error(request, "Received Invalid Goal Scorer and Assist Player Name")
-        
-        
+         
         return render(request, 'show_prediction.html', {'predicted_goals' : predicted_goals})
         
     return render(request, 'make_prediction.html', context)
