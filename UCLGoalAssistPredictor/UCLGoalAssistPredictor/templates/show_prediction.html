@@ -9,6 +9,7 @@
             background-color: #f0f0f0;
             text-align: center;
             padding-top: 50px;
+            margin: 0;
         }
         h1 {
             font-size: 48px;
@@ -37,12 +38,70 @@
                 transform: translateY(0%);
             }
         }
+        #startNewPredictionBtn {
+            display: block;
+            margin: 20px auto;
+            padding: 15px 30px;
+            font-size: 18px;
+            text-align: center;
+            text-decoration: none;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        #startNewPredictionBtn:hover {
+            background-color: #45a049;
+        }
+
+        /* Loading screen styles */
+        #loadingScreen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #ffffff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+        }
+
+        #loadingImage {
+            width: 100px; /* Adjust the size as needed */
+            height: auto; /* Automatically adjust height to maintain aspect ratio */
+            max-width: 100%; /* Ensure it doesn't exceed the screen width */
+            max-height: 100%; /* Ensure it doesn't exceed the screen height */
+        }
     </style>
 </head>
 <body>
+    <!-- Loading screen with Tenor GIF -->
+    <div id="loadingScreen">
+        <div class="tenor-gif-embed" data-postid="23087108" data-share-method="host" data-aspect-ratio="1.77778" data-width="100%">
+            <a href="https://tenor.com/view/inazuma-eleven-go-galaxy-inago-galaxy-anime-matatagi-hayato-falco-flashman-gif-23087108">Inazuma Eleven Go Galaxy Inago Galaxy GIF</a>from <a href="https://tenor.com/search/inazuma+eleven+go+galaxy-gifs">Inazuma Eleven Go Galaxy GIFs</a>
+        </div>
+        <script type="text/javascript" async src="https://tenor.com/embed.js"></script>
+    </div>
+
+    <!-- Content to be displayed after loading -->
     <h1>Predicted Goals:</h1>
     <div class="prediction">
         {{ predicted_score | safe }}
     </div>
+    
+    <a href="start_prediction" id="startNewPredictionBtn">Start New Prediction</a>
+
+    <script>
+        // Hide loading screen after 2 seconds
+        window.onload = function () {
+            setTimeout(function () {
+                document.getElementById('loadingScreen').style.display = 'none';
+            }, 2000); // 2000 milliseconds = 2 seconds
+        };
+    </script>
 </body>
 </html>
