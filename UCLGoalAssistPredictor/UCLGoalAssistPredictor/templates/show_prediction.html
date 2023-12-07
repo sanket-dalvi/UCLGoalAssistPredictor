@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <title>Show Prediction</title>
@@ -45,30 +46,51 @@
             animation: slideIn 1s ease-in-out;
         }
 
-        @keyframes slideIn {
-            from {
-                transform: translateY(-50%);
-            }
-            to {
-                transform: translateY(0%);
-            }
+        h1 {
+            font-size: 40px;
+            font-weight: bold;
+            color: #ffffff;
+            margin-top: 20px;
+            animation: fadeIn 1s ease-in-out;
         }
-        #startNewPredictionBtn {
-            display: block;
+
+        .prediction-container {
+            background-color: rgba(255, 255, 255, 0.8); /* Added transparency */
+            border-radius: 10px;
+            padding: 20px;
             margin: 20px auto;
+            max-width: 600px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .prediction-text {
+            font-size: 20px;
+            font-weight: bold;
+            color: #333333;
+            line-height: 1.6;
+        }
+
+        .predicted-score {
+            color: #2a38f8; /* Highlight the predicted score in a distinct color */
+        }
+
+        #startNewPredictionBtn {
+            display: inline-block;
+            margin: 20px;
             padding: 15px 30px;
             font-size: 18px;
             text-align: center;
             text-decoration: none;
-            background-color: #4CAF50;
-            color: white;
+            background-color: #2a38f8;
+            color: #ffffff;
             border: none;
             border-radius: 5px;
             cursor: pointer;
             transition: background-color 0.3s;
         }
+
         #startNewPredictionBtn:hover {
-            background-color: #45a049;
+            background-color: #d6b922;
         }
 
         /* Loading screen styles */
@@ -78,8 +100,9 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: #ffffff;
+            background-color: rgba(255, 255, 255, 0.8);
             display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
             z-index: 9999;
@@ -110,32 +133,35 @@
         }
     </style>
 </head>
+
 <body>
-    <!-- Loading screen with Tenor GIF -->
     <div id="loadingScreen">
-        <div class="tenor-gif-embed" data-postid="23087108" data-share-method="host" data-aspect-ratio="1.77778" data-width="100%">
-            <a href="https://tenor.com/view/inazuma-eleven-go-galaxy-inago-galaxy-anime-matatagi-hayato-falco-flashman-gif-23087108">Inazuma Eleven Go Galaxy Inago Galaxy GIF</a>from <a href="https://tenor.com/search/inazuma+eleven+go+galaxy-gifs">Inazuma Eleven Go Galaxy GIFs</a>
+        <!-- Keep the existing loading GIF and add a loading text -->
+        <div class="tenor-gif-embed" data-postid="23087108" data-share-method="host" data-aspect-ratio="1.77778"
+            data-width="100%">
+            <a href="https://tenor.com/view/inazuma-eleven-go-galaxy-inago-galaxy-anime-matatagi-hayato-falco-flashman-gif-23087108">Inazuma
+                Eleven Go Galaxy Inago Galaxy GIF</a>from <a
+                href="https://tenor.com/search/inazuma+eleven+go+galaxy-gifs">Inazuma Eleven Go Galaxy GIFs</a>
         </div>
         <script type="text/javascript" async src="https://tenor.com/embed.js"></script>
+        <div id="loadingText">Loading...</div>
     </div>
 
-    <!-- Content to be displayed after loading -->
-    <h2>Predicted Scores:</h2>
-    <div class="prediction">
-        <h1>{{ predicted_score | safe }}</h1>
+    <h1>Your Predicted Performance</h1>
+    <div class="prediction-container">
+        <div class="prediction-text">
+            Congratulations! Based on our advanced analysis, we predict that players' performance will be<br>
+            <span class="predicted-score">{{ predicted_score | safe }}</span>.
+        </div>
     </div>
-    <br>
-    <br>
-    <a href="make_prediction" id="startPredictionBtn"><button>Predict Again</button></a>
 
+    <a href="make_prediction" id="startNewPredictionBtn">Predict Again</a>
 
-    <script>
-        // Hide loading screen after 2 seconds
-        window.onload = function () {
-            setTimeout(function () {
-                document.getElementById('loadingScreen').style.display = 'none';
-            }, 2000); // 2000 milliseconds = 2 seconds
-        };
+    <script defer>
+        setTimeout(function () {
+            document.getElementById('loadingScreen').style.display = 'none';
+        }, 2000);
     </script>
 </body>
+
 </html>
