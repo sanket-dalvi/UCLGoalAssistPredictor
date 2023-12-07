@@ -3,19 +3,33 @@
 <head>
     <meta charset="UTF-8">
     <title>Show Prediction</title>
+    {% load static %}
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-color: #f0f0f0;
+            background-image: url('{% static "football.jpg" %}');
+            background-size: cover;
             text-align: center;
             padding-top: 50px;
             margin: 0;
         }
-        h1 {
-            font-size: 48px;
-            color: #333;
-            animation: fadeIn 1s ease-in-out;
+
+        h1{
+            font-weight: bolder;
+            font-style: oblique;
+            color: #8BC34A;
+            font-size: 10vh;
+            text-shadow: 2px 2px 2px #333, -2px -2px 2px #fff, 2px -2px 2px #fff, -2px 2px 2px #333;
         }
+
+        h2{
+            font-weight: bolder;
+            font-style: oblique;
+            color: black;
+            font-size: 8vh;
+            text-shadow: 2px 2px 2px #333, -2px -2px 2px #fff, 2px -2px 2px #fff, -2px 2px 2px #333;
+        }
+
         @keyframes fadeIn {
             from {
                 opacity: 0;
@@ -25,7 +39,7 @@
             }
         }
         .prediction {
-            font-size: 72px;
+            font-size: 100px;
             font-weight: bold;
             color: #4CAF50;
             animation: slideIn 1s ease-in-out;
@@ -72,10 +86,10 @@
         }
 
         #loadingImage {
-            width: 100px; /* Adjust the size as needed */
-            height: auto; /* Automatically adjust height to maintain aspect ratio */
-            max-width: 100%; /* Ensure it doesn't exceed the screen width */
-            max-height: 100%; /* Ensure it doesn't exceed the screen height */
+            width: 100px; 
+            height: auto; 
+            max-width: 100%; 
+            max-height: 100%; 
         }
 
         button{
@@ -84,7 +98,7 @@
             cursor: pointer;
             color: white;
             border-radius: 20px;
-            background-color: #663399;
+            background-color: lightcoral;
             transition: background-color 0.3s;
             font-size: 15px; 
             font-style: normal;
@@ -106,11 +120,12 @@
     </div>
 
     <!-- Content to be displayed after loading -->
-    <h1>Predicted Goals:</h1>
+    <h2>Predicted Scores:</h2>
     <div class="prediction">
-        {{ predicted_score | safe }}
+        <h1>{{ predicted_score | safe }}</h1>
     </div>
-    
+    <br>
+    <br>
     <a href="make_prediction" id="startPredictionBtn"><button>Predict Again</button></a>
 
 

@@ -7,26 +7,26 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-image: url('{% static "UFEA.jpg" %}');
+            background-image: url('{% static "football.jpg" %}');
             background-size: cover;
             text-align: center;
             padding-top: 50px;
         }
+
         h1 {
             font-size: 36px;
             font-weight: bold; 
-            color: aliceblue;
+            color: black;
             margin-left: 38%;
         }
 
         form {
             margin: 0 auto;
-            width: 90vh;
+            width: 70vh;
             height: 90vh;            
             padding: 20px;
             border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            margin-left: 90vh;
+            margin-left: 100vh;
             margin-top: -3vh;
             text-align: left;
         }
@@ -42,29 +42,32 @@
             border: 1px solid rgba(0, 0, 0, 0.8);
             padding: 8px;
             text-align: center;
+            height: 17vh;
         }
 
         label {
             display: block;
             font-size: 18px;
             margin-bottom: 10px;
-            color: #fff;
+            color: black;
+            font-weight: bold;
         }
         
         select {
-            width: 40%; /* Adjust the width as needed */
+            width: 80%; 
             padding: 8px;
             font-size: 16px;
             margin-bottom: 20px;
             border-radius: 4px;
             border: 1px solid #ccc;
-            display: inline-block; /* Display selects in one line */
-            margin-right: 2%; /* Adjust the margin between selects */
+            display: inline-block; 
+            margin-right: 2%; 
             box-sizing: border-box;
         }
 
         #predict{
-            margin-left: 240px;
+            margin-left: 150px;
+            margin-right: 15px;
         }
 
         .styled-button {
@@ -73,9 +76,9 @@
             margin-top: 10px;
             padding: 10px 20px;
             font-size: 18px;
-            background-color: #663399;
+            background-color: plum;
             border-radius: 10px;
-            color: white;
+            color: #663399;
             border: none;
             cursor: pointer;
             transition: background-color 0.3s;
@@ -83,21 +86,52 @@
         }
 
         .styled-button:hover {
-            background-color: #45a049;
+            background-color: whitesmoke;
         }
+
+        .grid-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr; 
+            padding: 10px;
+        }
+        
+        .grid-item {
+            background-color: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(0, 0, 0, 0.8);
+            padding: 8px;
+            text-align: center;
+            width: 50%;
+        }
+
+        input{
+            padding: 15px 25px;
+            border: none;
+            cursor: pointer;
+            color: white;
+            border-radius: 20px;
+            transition: background-color 0.3s;
+            font-size: 15px; 
+            font-style: oblique;
+
+        }
+
+        input:hover {
+            background-color: lightgreen; 
+        }
+
+
     </style>
-    <!-- Include jQuery -->
+    <!--  jQuery -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-    <!-- Include Select2 CSS -->
+    <!--  Select2 CSS -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
 
-    <!-- Include Select2 JS -->
+    <!--  Select2 JS -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
 </head>
 
 <body>
-
     <h1>Soccer Player Goals & Assists Predictor</h1>
 
     <div class="grid-container" style="display:grid;">
@@ -105,68 +139,67 @@
         <form method="post" onsubmit="return validateForm()">
             {% csrf_token %}
             
-            <div class="grid-item">
-                <label for="goal_scorer">Player Name:</label>
-                <select name="goal_scorer" id="goal_scorer">
-                    <option disabled selected>Select Goal Scorer</option>
-                    {% for goal_scorer in goal_scorers %}
-                        <option value="{{ goal_scorer }}">{{ goal_scorer }}</option>
-                    {% endfor %}
-                </select>
-            </div>
+            <table style="width: 100%;">
+                <tr>
+                    <td class="grid-item">
+                        <label for="goal_scorer">Player Name:</label>
+                        <select name="goal_scorer" id="goal_scorer">
+                            <option disabled selected>Select Goal Scorer</option>
+                            {% for goal_scorer in goal_scorers %}
+                                <option value="{{ goal_scorer }}">{{ goal_scorer }}</option>
+                            {% endfor %}
+                        </select>
+                    </td>
+                    <td class="grid-item">
+                        <label for="home_team">Home Team:</label>
+                        <select name="home_team" id="home_team" onchange="updateStadiumAndPlayerTeam()">
+                            {% for team in home_teams %}
+                                <option value="{{ team }}">{{ team }}</option>
+                            {% endfor %}
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="grid-item">
+                        <label for="away_team">Away Team:</label>
+                        <select name="away_team" id="away_team" onchange="updateStadiumAndPlayerTeam()">
+                            {% for team in away_teams %}
+                                <option value="{{ team }}">{{ team }}</option>
+                            {% endfor %}
+                        </select>
+                    </td>
+                    <td class="grid-item">
+                        <label for="stadium">Stadium:</label>
+                        <select name="stadium" id="stadium" onchange="updateStadiumAndPlayerTeam()">
+                            {% for stadium in stadiums %}
+                                <option value="{{ stadium }}">{{ stadium }}</option>
+                            {% endfor %}
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="grid-item">
+                        <label for="player_team">Player Team:</label>
+                        <select name="player_team" id="player_team" onchange="updateStadiumAndPlayerTeam()">
+                            {% for team in goal_scorer_teams %}
+                                <option value="{{ team }}">{{ team }}</option>
+                            {% endfor %}
+                        </select>
+                    </td>
+                    <td class="grid-item">
+                        <label for="assist_player">Assist Player Name (Optional):</label>
+                        <select name="assist_player" id="assist_player">
+                            <option disabled selected>Select Assist Player</option>
+                            {% for assist_player in assist_players %}
+                                <option value="{{ assist_player }}">{{ assist_player }}</option>
+                            {% endfor %}
+                        </select>
+                    </td>
+                </tr>
+            </table>
 
-            <div class="grid-item">
-                <label for="home_team">Home Team:</label>
-                <select name="home_team" id="home_team" onchange="updateStadiumAndPlayerTeam()">
-                    <option disabled selected>Select Home Team</option>
-                    {% for team in home_teams %}
-                        <option value="{{ team }}">{{ team }}</option>
-                    {% endfor %}
-                </select>
-            </div>
-
-            <div class="grid-item">
-                <label for="away_teams">Away Team:</label>
-                <select name="away_team" id="away_team" onchange="updateStadiumAndPlayerTeam()">
-                    <option disabled selected>Select Away Team</option>
-                    {% for team in away_teams %}
-                        <option value="{{ team }}">{{ team }}</option>
-                    {% endfor %}
-                </select>
-            </div>
-
-            <div class="grid-item">
-                <label for="stadium">Stadium:</label>
-                <select name="stadium" id="stadium" onchange="updateStadiumAndPlayerTeam()">
-                    <option disabled selected>Select Stadium</option>
-                    {% for stadium in stadiums %}
-                        <option value="{{ stadium }}">{{ stadium }}</option>
-                    {% endfor %}
-                </select>
-            </div>
-
-            <div class="grid-item">
-                <label for="player_team">Player Team:</label>
-                <select name="player_team" id="player_team" onchange="updateStadiumAndPlayerTeam()">
-                    <option disabled selected>Select Player Team</option>
-                    {% for team in goal_scorer_teams %}
-                        <option value="{{ team }}">{{ team }}</option>
-                    {% endfor %}
-                </select>
-            </div>
-
-            <div class="grid-item">
-                <label for="assist_player_name">Assist Player Name (Optional):</label>
-                <select name="assist_player" id="assist_player">
-                    <option disabled selected>Select Assist Player</option>
-                    {% for assist_player in assist_players %}
-                        <option value="{{ assist_player }}">{{ assist_player }}</option>
-                    {% endfor %}
-                </select>
-            </div>
-
-            <input type="submit" value="Predict" class="styled-button" id="predict">
-            <input type="button" value="Back" class="styled-button" id="back" onclick="window.location.href='{% url 'home' %}'">
+            <input type="submit" value="Predict" class="styled-button" id="predict"  style="background-color: #663399; color: #fff;">
+            <input type="button" value="Back" class="styled-button" id="back" onclick="window.location.href='{% url 'home' %}'" style="background-color: #663399; color: #fff;">
         </form>
     </div>
 
@@ -185,6 +218,18 @@
         var assistPlayerNameInput = document.getElementById("assist_player_name").value;
         var playerNameSelect = document.getElementById("player_name");
         var playerTeamSelect = document.getElementById("player_team");
+
+
+        if (
+            homeTeamSelect.value === "" ||
+            awayTeamSelect.value === "" ||
+            assistPlayerNameInput === "" ||
+            playerNameSelect.value === "" ||
+            playerTeamSelect.value === ""
+        ) {
+            alert("Please fill in all required fields.");
+            return false;
+        }
 
         if (homeTeamSelect.value === awayTeamSelect.value) {
             alert("Home and Away teams cannot be the same.");

@@ -60,12 +60,12 @@ def make_prediction(request):
             prediction_model.set_pipeline(prediction_pipeline)
             prediction_model.set_input_data(input_data)
             predicted_goals = prediction_model.predict()
-            result = f"{goal_scorer_name} <br> Goals : {predicted_goals}"
+            result = f"Goals : {goal_scorer_name} - {predicted_goals}\n"
 
             prediction_pipeline = prediction_model.ASSIST_PREDICTOR_WITH_GOAL_SCORER_PIPELINE
             prediction_model.set_pipeline(prediction_pipeline)
             predicted_assists = prediction_model.predict()
-            result += f"<br >{assist_player} <br> Assists : {predicted_assists}"
+            result += f"Assists : {assist_player} - {predicted_assists}"
             return render(request, 'show_prediction.html', {'predicted_score' : result})
 
 
@@ -76,7 +76,9 @@ def make_prediction(request):
             prediction_model.set_pipeline(prediction_pipeline)
             prediction_model.set_input_data(input_data)
             predicted_goals = prediction_model.predict()
-            return render(request, 'show_prediction.html', {'predicted_score' : f"Goals : {predicted_goals}"})
+            result = f"Goals : {goal_scorer_name} - {predicted_goals}\n"
+
+            return render(request, 'show_prediction.html', {'predicted_score' : result})
 
         elif assist_player:
         
@@ -85,7 +87,8 @@ def make_prediction(request):
             prediction_model.set_pipeline(prediction_pipeline)
             prediction_model.set_input_data(input_data)
             predicted_assists = prediction_model.predict()
-            return render(request, 'show_prediction.html', {'predicted_score' : f"Assists : {predicted_assists}"})
+            result = f"Assists : {goal_scorer_name} - {predicted_goals}\n"
+            return render(request, 'show_prediction.html', {'predicted_score' : result})
 
         else:
             messages.error(request, "Received Invalid Goal Scorer and Assist Player Name")
