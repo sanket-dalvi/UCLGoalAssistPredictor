@@ -54,12 +54,18 @@
             animation: fadeIn 1s ease-in-out;
         }
 
+        h3{
+            font-weight: bold;
+            color: red;
+        }
+
         .prediction-container {
-            background-color: rgba(255, 255, 255, 0.8); /* Added transparency */
+            background-color: rgba(255, 255, 255, 0.4); /* Added transparency */
             border-radius: 10px;
             padding: 20px;
             margin: 20px auto;
-            max-width: 600px;
+            max-width: 700px;
+            height: 45vh;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
 
@@ -147,11 +153,36 @@
         <div id="loadingText">Loading...</div>
     </div>
 
-    <h1>Your Predicted Performance</h1>
+    <h1>Predicted Performance</h1>
     <div class="prediction-container">
         <div class="prediction-text">
-            Congratulations! Based on our advanced analysis, we predict that players' performance will be<br>
-            <span class="predicted-score">{{ predicted_score | safe }}</span>.
+            {% if goal_scorer %}
+                {% if assist_player %}
+                <pre>
+    Congratulations! Based on our advanced analysis, 
+we predict that 
+<h3 style="font-weight: bolder; font-size: 35px;">{{ goal_scorer }} will score {{ predicted_goals }} goals,</h3>and
+<h3 style="font-weight: bolder; font-size: 35px;">{{ assist_player }} will provide {{ predicted_assists }} assists.</h3>
+                </pre>                
+                {% else %}
+                <pre>
+    Congratulations! Based on our advanced analysis, 
+we predict that 
+<h3 style="font-weight: bolder; font-size: 35px;">{{ goal_scorer }} will score {{ predicted_goals }} goals.</h3>
+                </pre>
+                {% endif %}
+            {% elif assist_player %}
+                <pre>
+    Congratulations! Based on our advanced analysis, 
+we predict that 
+<h3 style="font-weight: bolder; font-size: 35px;">{{ assist_player }} will provide {{ predicted_assists }} assists.</h3>
+                </pre>
+            {% else %}
+            <pre>
+{% comment %} Display a default message if no prediction data is available {% endcomment %}
+No prediction data available.
+            </pre>
+            {% endif %}
         </div>
     </div>
 

@@ -144,7 +144,7 @@
                     <td class="grid-item">
                         <label for="goal_scorer">Player Name:</label>
                         <select name="goal_scorer" id="goal_scorer">
-                            <option disabled selected>Select Goal Scorer</option>
+                            <option  value="">Select Goal Scorer</option>
                             {% for goal_scorer in goal_scorers %}
                                 <option value="{{ goal_scorer }}">{{ goal_scorer }}</option>
                             {% endfor %}
@@ -153,6 +153,7 @@
                     <td class="grid-item">
                         <label for="home_team">Home Team:</label>
                         <select name="home_team" id="home_team" onchange="updateStadiumAndPlayerTeam()">
+                            <option value="">Select Home Team</option>
                             {% for team in home_teams %}
                                 <option value="{{ team }}">{{ team }}</option>
                             {% endfor %}
@@ -163,6 +164,7 @@
                     <td class="grid-item">
                         <label for="away_team">Away Team:</label>
                         <select name="away_team" id="away_team" onchange="updateStadiumAndPlayerTeam()">
+                            <option  value="">Select Away Team</option>
                             {% for team in away_teams %}
                                 <option value="{{ team }}">{{ team }}</option>
                             {% endfor %}
@@ -171,6 +173,7 @@
                     <td class="grid-item">
                         <label for="stadium">Stadium:</label>
                         <select name="stadium" id="stadium" onchange="updateStadiumAndPlayerTeam()">
+                            <option  value="">Select Stadium</option>
                             {% for stadium in stadiums %}
                                 <option value="{{ stadium }}">{{ stadium }}</option>
                             {% endfor %}
@@ -181,6 +184,7 @@
                     <td class="grid-item">
                         <label for="player_team">Player Team:</label>
                         <select name="player_team" id="player_team" onchange="updateStadiumAndPlayerTeam()">
+                            <option  value="">Select Player Team</option>
                             {% for team in goal_scorer_teams %}
                                 <option value="{{ team }}">{{ team }}</option>
                             {% endfor %}
@@ -189,7 +193,7 @@
                     <td class="grid-item">
                         <label for="assist_player">Assist Player Name (Optional):</label>
                         <select name="assist_player" id="assist_player">
-                            <option disabled selected>Select Assist Player</option>
+                            <option  value="">Select Assist Player</option>
                             {% for assist_player in assist_players %}
                                 <option value="{{ assist_player }}">{{ assist_player }}</option>
                             {% endfor %}
@@ -236,13 +240,11 @@
             return false;
         }
 
-        // Validation: Assist player and player name should not be the same
         if (assistPlayerNameInput !== "" && assistPlayerNameInput === playerNameSelect.options[playerNameSelect.selectedIndex].text) {
             alert("Assist player name cannot be the same as the player name.");
             return false;
         }
 
-        // Validation: Player team should match with either home team or away team
         var selectedPlayerTeam = playerTeamSelect.options[playerTeamSelect.selectedIndex].text;
         var selectedHomeTeam = homeTeamSelect.options[homeTeamSelect.selectedIndex].text;
         var selectedAwayTeam = awayTeamSelect.options[awayTeamSelect.selectedIndex].text;
@@ -252,10 +254,67 @@
             return false;
         }
 
-        // You can add more validations here as needed
-
         return true;
     }
     </script>
 </body>
+<script>
+    function validateForm() {
+        var homeTeamSelect = document.getElementById("home_team");
+        var awayTeamSelect = document.getElementById("away_team");
+        var stadiumSelect = document.getElementById("stadium");
+        var playerTeamSelect = document.getElementById("player_team");
+        var goalScorerSelect = document.getElementById("goal_scorer");
+        var assistPlayerSelect = document.getElementById("assist_player");
+
+
+        if (homeTeamSelect.value === "") {
+            displayErrorMessage("Please select Home Team.", homeTeamSelect);
+            return false;
+        }
+
+        if (awayTeamSelect.value === "") {
+            displayErrorMessage("Please select Away Team.", awayTeamSelect);
+            return false;
+        }
+
+        if (stadiumSelect.value === "") {
+            displayErrorMessage("Please select Stadium.", stadiumSelect);
+            return false;
+        }
+
+        if (playerTeamSelect.value === "") {
+            displayErrorMessage("Please select Player Team.", playerTeamSelect);
+            return false;
+        }
+
+        if (homeTeamSelect.value === awayTeamSelect.value) {
+            displayErrorMessage("Home Team and Away Team cannot be the same.", awayTeamSelect);
+            return false;
+        }
+
+        if (playerTeamSelect.value !== homeTeamSelect.value && playerTeamSelect.value !== awayTeamSelect.value) {
+            displayErrorMessage("Player Team should match with either Home Team or Away Team.", playerTeamSelect);
+            return false;
+        }
+
+        if (goalScorerSelect.value === assistPlayerSelect.value) {
+            displayErrorMessage("Player Name and Assist Player Name cannot be the same.", assistPlayerSelect);
+            return false;
+        }
+
+        return true;
+    }
+
+    function displayErrorMessage(message, element) {
+        alert(message);
+
+        element.style.border = "2px solid red";
+
+        setTimeout(function () {
+            element.style.border = "";
+        }, 3000);
+    }
+</script>
+
 </html>

@@ -36,6 +36,8 @@ def make_prediction(request):
 
 
     if request.method == 'POST':
+        predicted_goals = None
+        predicted_assists = None
 
         # collect data from form
         home_team = request.POST.get('home_team')
@@ -60,13 +62,17 @@ def make_prediction(request):
             prediction_model.set_pipeline(prediction_pipeline)
             prediction_model.set_input_data(input_data)
             predicted_goals = prediction_model.predict()
-            result = f"Goals : {goal_scorer_name} - {predicted_goals}\n"
 
             prediction_pipeline = prediction_model.ASSIST_PREDICTOR_WITH_GOAL_SCORER_PIPELINE
             prediction_model.set_pipeline(prediction_pipeline)
             predicted_assists = prediction_model.predict()
-            result += f"Assists : {assist_player} - {predicted_assists}"
-            return render(request, 'show_prediction.html', {'predicted_score' : result})
+
+            return render(request, 'show_prediction.html', {
+                'goal_scorer' : goal_scorer_name,
+                'assist_player' : assist_player,
+                'predicted_goals' : predicted_goals,
+                'predicted_assists' : predicted_assists 
+            })
 
 
         elif goal_scorer_name:
@@ -76,9 +82,11 @@ def make_prediction(request):
             prediction_model.set_pipeline(prediction_pipeline)
             prediction_model.set_input_data(input_data)
             predicted_goals = prediction_model.predict()
-            result = f"Goals : {goal_scorer_name} - {predicted_goals}\n"
 
-            return render(request, 'show_prediction.html', {'predicted_score' : result})
+            return render(request, 'show_prediction.html', {
+                'goal_scorer' : goal_scorer_name,
+                'predicted_goals' : predicted_goals
+            })
 
         elif assist_player:
         
@@ -87,8 +95,10 @@ def make_prediction(request):
             prediction_model.set_pipeline(prediction_pipeline)
             prediction_model.set_input_data(input_data)
             predicted_assists = prediction_model.predict()
-            result = f"Assists : {goal_scorer_name} - {predicted_goals}\n"
-            return render(request, 'show_prediction.html', {'predicted_score' : result})
+            return render(request, 'show_prediction.html', {
+                'assist_player' : assist_player,
+                'predicted_assists' : predicted_assists
+            })
 
         else:
             messages.error(request, "Received Invalid Goal Scorer and Assist Player Name")
